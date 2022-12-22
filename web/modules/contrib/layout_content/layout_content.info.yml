@@ -1,0 +1,13 @@
+name: Custom Layouts
+description: Allows the creation of custom layouts and layout types.
+type: module
+core_version_requirement: ^8.9 || ^9
+package: Layout
+
+dependencies:
+  - drupal:layout_builder
+
+# Information added by Drupal.org packaging script on 2020-08-20
+version: '1.0.0-rc3'
+project: 'layout_content'
+datestamp: 1597893568

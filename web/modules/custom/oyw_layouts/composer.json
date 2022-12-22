@@ -1,0 +1,13 @@
+{
+    "name": "oyw_layouts",
+    "type": "drupal-module",
+    "description": "Defines an extra layout",
+    "keywords": [
+    ],
+    "homepage": "https://www.drupal.org/project/oyw_layouts",
+    "minimum-stability": "dev",
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/oyw_layouts",
+        "source": "http://cgit.drupalcode.org/oyw_layouts",
+    },
+}

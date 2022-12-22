@@ -1,0 +1,14 @@
+codemirror:
+  css:
+    component:
+      https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/codemirror.min.css: {}
+    theme:
+      https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/theme/isotope.min.css: {}
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/codemirror.min.js: { weight: -1 }
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/addon/runmode/runmode.min.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/addon/display/placeholder.min.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.56.0/mode/yaml/yaml.min.js: {}
+    layout_content.codemirror.js: {}
+  dependencies:
+    - core/drupal

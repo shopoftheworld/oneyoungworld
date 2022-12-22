@@ -1,0 +1,5 @@
+name: 'OneYoungWorld Layouts'
+type: module
+description: 'Defines an extra layout'
+core_version_requirement: ^8 || ^9
+package: 'OYW'

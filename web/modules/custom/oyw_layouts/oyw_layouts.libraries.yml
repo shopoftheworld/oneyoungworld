@@ -1,0 +1,5 @@
+two_col:
+  version: 1.x
+  css:
+    theme:
+      css/two_col.css: {}

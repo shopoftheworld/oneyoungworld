@@ -1,0 +1,104 @@
+<?php
+
+/**
+ * @file
+ * Module file for Layout Content.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\layout_content\Entity\LayoutContentInterface;
+use Drupal\layout_content\Entity\LayoutContentType;
+use Drupal\layout_content\LayoutContentEntityOperations;
+
+/**
+ * Implements hook_theme().
+ */
+function layout_content_theme(): array {
+  return [
+    'layout_content' => [
+      'render element' => 'content',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function layout_content_theme_suggestions_layout_content(array $variables): array {
+  $layout_content = $variables['content']['#layout_content'];
+  return [
+    'layout_content__' . $layout_content->bundle(),
+  ];
+}
+
+/**
+ * Implements hook_entity_extra_field_info().
+ */
+function layout_content_entity_extra_field_info(): array {
+  $extra = ['layout_content' => []];
+  foreach (LayoutContentType::loadMultiple() as $layout_content_type) {
+    $extra['layout_content'][$layout_content_type->id()]['display']['layout_regions'] = [
+      'label' => t('Layout Regions'),
+      'description' => t('The position where layout regions will be rendered.'),
+      'weight' => 0,
+    ];
+  }
+
+  return $extra;
+}
+
+/**
+ * Implements hook_entity_presave().
+ */
+function layout_content_entity_presave(EntityInterface $entity): void {
+  Drupal::classResolver(LayoutContentEntityOperations::class)->preSave($entity);
+}
+
+/**
+ * Template preprocess hook for layout content entities.
+ */
+function template_preprocess_layout_content(array &$variables): void {
+  $layout_content = $variables['content']['#layout_content'];
+  $variables['layout_content'] = $layout_content;
+
+  $variables['attributes']['class'][] = 'layout-content';
+  $variables['attributes']['class'][] = 'layout-content--'
+    . Html::cleanCssIdentifier($layout_content->bundle());
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function layout_content_form_layout_builder_configure_section_alter(
+  array &$form,
+  FormStateInterface $form_state
+): void {
+  $module_handler = Drupal::moduleHandler();
+  if (!$module_handler->moduleExists('field_group')) {
+    return;
+  }
+
+  $layout_content = $form['layout_settings']['layout_form']['#layout'] ?? NULL;
+  if (!$layout_content instanceof LayoutContentInterface) {
+    return;
+  }
+
+  $context = [
+    'entity_type' => $layout_content->getEntityTypeId(),
+    'bundle' => $layout_content->bundle(),
+    'entity' => $layout_content,
+    'display_context' => 'form',
+    'mode' => 'default',
+  ];
+
+  field_group_attach_groups($form['layout_settings']['layout_form'], $context);
+  $form['layout_settings']['layout_form']['#process'][] = [
+    Drupal\field_group\FormatterHelper::class,
+    'formProcess'
+  ];
+}

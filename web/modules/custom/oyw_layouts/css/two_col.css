@@ -1,0 +1,8 @@
+.two-col .main-region {
+    width:40%;
+    float: left;
+}
+.two-col .sidebar-region {
+    width:60%;
+    float: left;
+}
